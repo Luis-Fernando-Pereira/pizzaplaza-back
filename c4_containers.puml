@@ -1,0 +1,45 @@
+@startuml C4_Container
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title Pizza Plaza - Container Diagram com API Gateway
+
+Person(cliente, "Cliente", "Realiza pedidos online")
+Person(vendedor, "Vendedor", "Registra pedidos presenciais e atualiza status")
+Person(admin, "Administrador", "Gerencia pizzas, vendedores e relatórios")
+
+System_Boundary(system, "Pizza Plaza Platform") {
+
+    Container(frontend, "Web Application", "Angular 21","Interface web utilizada por clientes, vendedores e administradores")
+
+    Container(api_gateway, "API Gateway", "Quarkus / API Gateway","Ponto único de entrada para as APIs. Responsável por roteamento, autenticação e segurança")
+
+    Container(auth_service, "Auth Service", "Quarkus REST API","Autenticação, cadastro de usuários, geração de JWT e controle de permissões")
+
+    Container(product_service, "Product Service", "Quarkus REST API","Gerenciamento de pizzas e cardápio")
+
+    Container(order_service, "Order Service", "Quarkus REST API","Criação e gerenciamento de pedidos")
+
+    Container(sales_service, "Sales Service", "Quarkus REST API","Registro de vendas e geração de relatórios")
+
+    ContainerDb(database, "PostgreSQL Database", "PostgreSQL 18","Persistência de dados do sistema")
+}
+
+Rel(cliente, frontend, "Usa via navegador")
+Rel(vendedor, frontend, "Usa via navegador")
+Rel(admin, frontend, "Usa via navegador")
+
+Rel(frontend, api_gateway, "Chama APIs", "HTTPS/JSON")
+
+Rel(api_gateway, auth_service, "Encaminha autenticação", "REST")
+Rel(api_gateway, product_service, "Encaminha requisições de produtos", "REST")
+Rel(api_gateway, order_service, "Encaminha requisições de pedidos", "REST")
+Rel(api_gateway, sales_service, "Encaminha requisições de vendas", "REST")
+
+Rel(auth_service, database, "Lê/Escreve usuários", "JPA/Hibernate")
+Rel(product_service, database, "Lê/Escreve pizzas", "JPA/Hibernate")
+Rel(order_service, database, "Lê/Escreve pedidos", "JPA/Hibernate")
+Rel(sales_service, database, "Lê/Escreve vendas", "JPA/Hibernate")
+
+Rel(order_service, sales_service, "Notifica venda após entrega", "REST")
+
+@enduml

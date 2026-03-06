@@ -1,0 +1,24 @@
+@startuml C4_Context
+    !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+    title Pizza Plaza - C4 Context Diagram
+
+    Person(cliente, "Cliente", "Realiza pedidos online e acompanha status")
+    Person(vendedor, "Vendedor", "Registra pedidos presenciais e atualiza status")
+    Person(admin, "Administrador", "Gerencia sistema, vendedores e pizzas")
+
+    System_Ext(frontend, "Frontend Web (Angular)", "Interface web utilizada pelos usuários")
+
+    System(sistema, "Pizza Plaza Backend","Plataforma de gestão de pedidos baseada em microserviços")
+
+    System_Ext(db, "PostgreSQL", "Banco de dados relacional")
+
+    Rel(cliente, frontend, "Usa via navegador")
+    Rel(vendedor, frontend, "Usa via navegador")
+    Rel(admin, frontend, "Usa via navegador")
+
+    Rel(frontend, sistema, "Consome APIs REST", "HTTPS/JSON")
+
+    Rel(sistema, db, "Armazena dados", "JPA/Hibernate")
+
+@enduml
