@@ -1,4 +1,4 @@
-<persistence xmlns="http://xmlns.jcp.org" version="2.2">
+<persistence xmlns="http://www.hibernate.org/xsd/hibernate-mapping" version="2.2">
     <persistence-unit name="MinhaPU" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <!-- Liste suas entidades aqui -->
