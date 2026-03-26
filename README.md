@@ -74,11 +74,12 @@ O banco de dados será implementado utilizando:
 - Hibernate (JPA) para mapeamento objeto-relacional
 
 Principais Entidades:
-- Usuário
-- Cliente
-- Vendedor
-- Administrador
-- Pizza
-- Pedido
-- ItemPedido
-- Venda
+- User
+- Custumer
+- Seller
+- Administrator
+- Product
+- ProductType
+- Order
+- OrderProduct
+- Sale
