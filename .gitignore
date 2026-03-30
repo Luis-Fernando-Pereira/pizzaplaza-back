@@ -1,0 +1,7 @@
+/auth-service/target/
+/auth-service/.idea/
+/product-service/target/
+/product-service/.idea/
+/libraries/entity/target/
+/libraries/entity/.idea/
+/.idea/
