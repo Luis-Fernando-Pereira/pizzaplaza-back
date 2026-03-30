@@ -5,7 +5,7 @@ import br.com.pizzaplaza.entity.dto.UserDto;
 
 public class SellerStrategy implements UserStrategy {
     @Override
-    public UserDto buildUser(UserDto userDto) {
+    public UserDto save(UserDto userDto) {
         return null;
     }
 }

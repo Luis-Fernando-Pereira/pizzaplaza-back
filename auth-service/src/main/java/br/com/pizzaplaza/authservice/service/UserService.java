@@ -20,10 +20,11 @@ public class UserService {
 
     @Transactional
     public UserDto executeStrategy(UserDto userDto) {
-        return this.userStrategy.buildUser(userDto);
+        return this.userStrategy.save(userDto);
     }
 
-    public UserDto addUser(UserDto userDto) {
+    @Transactional
+    public UserDto save(UserDto userDto) {
 
         if (UserDto.Type.ADMIN.equals(userDto.userType)) {
             this.setStrategy(new AdminStrategy());

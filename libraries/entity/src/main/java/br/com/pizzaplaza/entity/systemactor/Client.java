@@ -1,15 +1,14 @@
 package br.com.pizzaplaza.entity.systemactor;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
-@Table
+@Entity
 public class Client extends Person {
 
     @Column(unique = true)
     public String cpf;
 
+    @OneToOne
     @JoinColumn(name="user_id")
     public User user;
 

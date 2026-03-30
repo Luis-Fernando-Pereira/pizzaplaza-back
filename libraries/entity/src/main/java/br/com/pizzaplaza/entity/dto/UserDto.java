@@ -1,7 +1,9 @@
 package br.com.pizzaplaza.entity.dto;
 
 
-public class UserDto {
+import br.com.pizzaplaza.entity.fatherofall.OdinDto;
+
+public class UserDto extends OdinDto {
     public String name;
     public String cpf;
     public String email;

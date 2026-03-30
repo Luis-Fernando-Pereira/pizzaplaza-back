@@ -1,6 +1,7 @@
 package br.com.pizzaplaza.authservice.strategies;
 
 import br.com.pizzaplaza.authservice.interfaces.UserStrategy;
+import br.com.pizzaplaza.authservice.repository.ClientRepository;
 import br.com.pizzaplaza.authservice.repository.UserRepository;
 import br.com.pizzaplaza.entity.dto.UserDto;
 import br.com.pizzaplaza.entity.systemactor.Client;
@@ -8,14 +9,19 @@ import br.com.pizzaplaza.entity.systemactor.User;
 import io.vertx.core.cli.InvalidValueException;
 import io.vertx.core.cli.Option;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
 public class ClientStrategy implements UserStrategy {
 
     @Inject
-    UserRepository repository;
+    UserRepository userRepository;
+
+    @Inject
+    ClientRepository clientRepository;
 
     @Override
-    public UserDto buildUser(UserDto userDto) {
+    @Transactional
+    public UserDto save(UserDto userDto) {
         if (!isUserDtoValid(userDto)) {
             throw new InvalidValueException(new Option(),"Usuário inválido");
         }
@@ -26,7 +32,7 @@ public class ClientStrategy implements UserStrategy {
         user.setPassword(userDto.password);
         user.setAuthenticated(false);
 
-        repository.save(user);
+        userRepository.save(user);
 
         Client client = new Client();
 
@@ -34,8 +40,11 @@ public class ClientStrategy implements UserStrategy {
         client.cpf = userDto.cpf;
         client.name = userDto.name;
 
+        clientRepository.save(client);
 
-        return null;
+        userDto.link = "http://localhost:8081/user/"+ user.getId();
+
+        return userDto;
     }
 
     public Boolean isUserDtoValid(UserDto userDto) {
