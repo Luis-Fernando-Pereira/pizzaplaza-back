@@ -8,9 +8,6 @@ import jakarta.persistence.MappedSuperclass;
 public class Person extends Odin {
 
     @Column
-    private String name;
-
-    @Column
-    private String cpf;
+    public String name;
 
 }

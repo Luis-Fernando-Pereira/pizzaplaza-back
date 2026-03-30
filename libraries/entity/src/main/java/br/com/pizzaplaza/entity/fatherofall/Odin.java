@@ -1,8 +1,6 @@
 package br.com.pizzaplaza.entity.fatherofall;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.*;
 
 import java.util.Date;
 
@@ -10,7 +8,8 @@ import java.util.Date;
 public class Odin {
 
     @Id
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column
     private Integer idUserWhoCreated;
