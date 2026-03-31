@@ -6,3 +6,5 @@
 /libraries/entity/.idea/
 /.idea/
 /.mvn/
+
+/api-gateway/target/
