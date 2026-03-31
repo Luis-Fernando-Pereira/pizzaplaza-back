@@ -8,4 +8,9 @@ public class SellerStrategy implements UserStrategy {
     public UserDto save(UserDto userDto) {
         return null;
     }
+
+    @Override
+    public boolean supports(String userType) {
+        return false;
+    }
 }

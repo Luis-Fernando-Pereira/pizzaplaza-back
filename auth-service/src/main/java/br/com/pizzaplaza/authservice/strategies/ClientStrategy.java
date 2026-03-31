@@ -8,9 +8,11 @@ import br.com.pizzaplaza.entity.systemactor.Client;
 import br.com.pizzaplaza.entity.systemactor.User;
 import io.vertx.core.cli.InvalidValueException;
 import io.vertx.core.cli.Option;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
+@ApplicationScoped
 public class ClientStrategy implements UserStrategy {
 
     @Inject
@@ -47,20 +49,25 @@ public class ClientStrategy implements UserStrategy {
         return userDto;
     }
 
+    @Override
+    public boolean supports(String userType) {
+        return "CLIENT".equals(userType);
+    }
+
     public Boolean isUserDtoValid(UserDto userDto) {
         if (userDto == null) {
             return false;
         }
 
-        if (isEmailValid(userDto.email)) {
+        if (!isEmailValid(userDto.email)) {
             return false;
         }
 
-        if (isPasswordValid(userDto.password)) {
+        if (!isPasswordValid(userDto.password)) {
             return false;
         }
 
-        if (isCpfValid(userDto.cpf)) {
+        if (!isCpfValid(userDto.cpf)) {
             return false;
         }
 
@@ -68,7 +75,7 @@ public class ClientStrategy implements UserStrategy {
     }
 
     public Boolean isPasswordValid(String password) {
-        return password == null || password.isEmpty() || password.isBlank();
+        return password != null && !password.isEmpty() && !password.isBlank();
     }
 
     public Boolean isEmailValid(String email) {
@@ -76,6 +83,6 @@ public class ClientStrategy implements UserStrategy {
     }
 
     public Boolean isCpfValid(String cpf) {
-        return cpf == null || cpf.isEmpty() || cpf.isBlank();
+        return cpf != null && !cpf.isEmpty() && !cpf.isBlank();
     }
 }

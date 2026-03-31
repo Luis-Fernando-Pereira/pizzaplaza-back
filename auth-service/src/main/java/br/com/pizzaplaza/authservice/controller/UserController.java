@@ -13,7 +13,6 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-
 @ApplicationScoped
 @Path("/user")
 public class UserController {
@@ -21,7 +20,7 @@ public class UserController {
     @Inject
     UserService userService;
 
-    @Path("client")
+    @Path("/client")
     @POST
     @PermitAll
     @Consumes(MediaType.APPLICATION_JSON)
@@ -38,7 +37,6 @@ public class UserController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response newAdmin(UserDto userDto) {
         return Response.ok().build();
-
     }
 
     @Path("seller")
