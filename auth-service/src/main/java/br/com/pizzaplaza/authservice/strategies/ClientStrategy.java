@@ -12,6 +12,11 @@ import io.vertx.core.cli.Option;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import org.hibernate.exception.ConstraintViolationException;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @ApplicationScoped
 public class ClientStrategy implements UserStrategy {
@@ -39,7 +44,7 @@ public class ClientStrategy implements UserStrategy {
 
         Client client = new Client();
 
-        client.setUser(user);;
+        client.setUser(user);
         client.setCpf(userDto.getCpf());
         client.setName(userDto.getName());
 

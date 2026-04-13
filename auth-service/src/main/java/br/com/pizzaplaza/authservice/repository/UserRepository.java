@@ -23,6 +23,12 @@ public class UserRepository {
                 .getSingleResult();
     }
 
+    public Boolean emailAlreadyInUse(String email) {
+        return em.createQuery("SELECT u from User u where u.email = :email", User.class)
+                .setParameter("email", email)
+                .getSingleResult() != null;
+    }
+
     public User update(User user) {
         return em.merge(user);
     }

@@ -7,6 +7,7 @@ import br.com.pizzaplaza.util.PasswordUtil;
 import io.smallrye.jwt.build.Jwt;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -31,6 +32,7 @@ public class AuthService {
                 .sign();
     }
 
+    @Transactional
     public User authenticate(LoginDto loginData) {
 
         User user = userRepository.findByEmail(loginData.email);

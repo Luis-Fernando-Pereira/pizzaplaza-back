@@ -6,6 +6,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Instance;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import org.hibernate.exception.ConstraintViolationException;
 
 @ApplicationScoped
 public class UserService {
@@ -14,12 +15,16 @@ public class UserService {
     Instance<UserStrategy> strategies;
 
     @Transactional
-    public UserDto save(UserDto userDto) {
-        return strategies.stream()
-                .filter(s -> s.supports(userDto.userType.name()))
-                .findFirst()
-                .orElseThrow()
-                .save(userDto);
+    public UserDto save(UserDto userDto) throws Exception {
+        try {
+            return strategies.stream()
+                    .filter(s -> s.supports(userDto.userType.name()))
+                    .findFirst()
+                    .orElseThrow()
+                    .save(userDto);
+        } catch (ConstraintViolationException e) {
+            throw new Exception(e.getMessage());
+        }
     }
 
 }

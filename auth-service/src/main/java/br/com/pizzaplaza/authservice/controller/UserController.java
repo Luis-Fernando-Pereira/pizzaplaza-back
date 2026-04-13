@@ -13,6 +13,11 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.hibernate.exception.ConstraintViolationException;
+
+import java.net.URI;
+import java.util.HashMap;
+import java.util.NoSuchElementException;
 
 @ApplicationScoped
 @Path("/user")
@@ -27,8 +32,26 @@ public class UserController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response newClient(@Valid UserDto userDto) {
-        userDto = userService.save(userDto);
-        return Response.ok(userDto).build();
+        try {
+
+            userDto = userService.save(userDto);
+            return Response.created(new URI(userDto.getLink())).build();
+
+        } catch (NoSuchElementException e) {
+
+            System.out.println("Erro: este endpoint não suporta este tipo de usuário");
+            return Response.status(400, e.getMessage()).build();
+
+        } catch (Exception e) {
+
+            System.out.println(e.getCause().getCause().getCause());
+
+            HashMap hashMap = new HashMap();
+            hashMap.put("Erro", e.getCause().getCause().getMessage());
+
+            return Response.ok(hashMap).build();
+
+        }
     }
 
     @Path("admin")
